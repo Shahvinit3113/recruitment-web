@@ -199,7 +199,7 @@ const organizationSlice = createSlice({
             })
             .addCase(fetchAllOrganizations.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = action.payload.Records;
+                state.data = action.payload.Result.Records;
                 state.totalCount = action.payload.TotalRecords;
                 toast.success("Organizations loaded successfully");
             })
