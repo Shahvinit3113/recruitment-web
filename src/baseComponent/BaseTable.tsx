@@ -213,16 +213,16 @@ function BaseTable<T extends Record<string, any>>({
 
   // Mobile Card View
   const renderMobileView = () => (
-    <div className="md:hidden space-y-4">
+    <div className="md:hidden space-y-3 p-4">
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-12 space-y-4">
+        <div className="flex flex-col items-center justify-center py-16 space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="text-gray-500 text-sm">Loading...</p>
+          <p className="text-gray-500 text-sm font-medium">Loading...</p>
         </div>
       ) : sortedData.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 space-y-2">
+        <div className="flex flex-col items-center justify-center py-16 space-y-3">
           <svg
-            className="w-16 h-16 text-gray-300"
+            className="w-20 h-20 text-gray-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -234,27 +234,67 @@ function BaseTable<T extends Record<string, any>>({
               d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
             />
           </svg>
-          <p className="text-lg font-medium text-gray-500">{emptyMessage}</p>
+          <p className="text-lg font-semibold text-gray-600">{emptyMessage}</p>
         </div>
       ) : (
         sortedData.map((row, index) => (
           <div
             key={keyExtractor(row, index)}
             onClick={() => onRowClick?.(row, index)}
-            className={`bg-white border border-gray-200 rounded-lg p-4 space-y-3 ${
-              onRowClick ? "cursor-pointer active:bg-gray-50" : ""
-            }`}
+            className={`
+              bg-white rounded-xl shadow-sm border border-gray-200
+              transition-all duration-200
+              ${
+                onRowClick
+                  ? "cursor-pointer active:scale-[0.98] active:shadow-md"
+                  : ""
+              }
+              hover:shadow-md hover:border-gray-300
+            `}
           >
-            {columns.map((column) => (
-              <div key={column.key} className="flex flex-col">
-                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
-                  {column.label}
-                </span>
-                <div className="text-sm text-gray-900">
-                  {renderCell(column, row, index)}
+            <div className="p-4 space-y-3">
+              {columns.map((column, colIndex) => (
+                <div
+                  key={column.key}
+                  className={
+                    colIndex > 0 ? "pt-3 border-t border-gray-100" : ""
+                  }
+                >
+                  <div className="flex justify-between items-start gap-3">
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex-shrink-0">
+                      {column.label}
+                    </span>
+                    <div
+                      className={`text-sm text-gray-900 font-medium text-right flex-1 ${
+                        column.className || ""
+                      }`}
+                    >
+                      {renderCell(column, row, index)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {onRowClick && (
+              <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 rounded-b-xl">
+                <div className="flex items-center justify-end text-blue-600 text-sm font-medium">
+                  <span>View Details</span>
+                  <svg
+                    className="w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         ))
       )}

@@ -4,6 +4,7 @@ import {
   FileText,
   Home,
   Settings,
+  ListCollapse,
   Users,
 } from "lucide-react";
 import { useState } from "react";
@@ -26,6 +27,12 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       label: "Organization",
       icon: Building,
       href: "/organization",
+    },
+    {
+      id: "task",
+      label: "Task",
+      icon: ListCollapse,
+      href: "/task",
     },
     { id: "candidates", label: "Candidates", icon: Users, href: "/candidates" },
     { id: "jobs", label: "Jobs", icon: FileText, href: "/jobs" },
