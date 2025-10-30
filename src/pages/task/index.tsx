@@ -104,14 +104,17 @@ const Task: React.FC = () => {
   ) => {
     setUpdatingStatus(taskUid);
     try {
+      const formatDate = (date: any) =>
+        date ? new Date(date).toISOString().split("T")[0] : null;
+
       await dispatch(
         updateTask({
           Uid: taskUid,
           Name: task.Name,
           UserName: task.UserName,
           Stack: task.Stack,
-          StartDate: task.StartDate,
-          EndDate: task.EndDate,
+          StartDate: formatDate(task.StartDate), // ✅ formatted as YYYY-MM-DD
+          EndDate: formatDate(task.EndDate), // ✅ formatted as YYYY-MM-DD
           Status: newStatus,
           Description: task.Description,
         })
