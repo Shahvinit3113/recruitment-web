@@ -17,6 +17,8 @@ import ProtectedRoute from "./layout/ProtectedRoute";
 import Organization from "./pages/organization";
 import Settings from "./pages/settings";
 import Task from "./pages/task";
+import Position from "./pages/position";
+import Department from "./pages/department";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/organization" element={<Organization />} />
             <Route path="/task" element={<Task />} />
+            <Route path="/position" element={<Position />} />
+            <Route path="/department" element={<Department />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
         </Route>

@@ -1,13 +1,12 @@
 import {
-  BarChart3,
   Building,
-  FileText,
   Home,
   Settings,
   ListCollapse,
-  Users,
+  Briefcase,
+  Network,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarProps {
@@ -20,6 +19,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState(location.pathname);
 
+  // 🧭 Automatically update active item when URL changes
+  useEffect(() => {
+    setActiveItem(location.pathname);
+  }, [location.pathname]);
+
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: Home, href: "/" },
     {
@@ -29,24 +33,30 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       href: "/organization",
     },
     {
-      id: "task",
-      label: "Task",
-      icon: ListCollapse,
-      href: "/task",
+      id: "position",
+      label: "Position",
+      icon: Briefcase,
+      href: "/position",
     },
-    { id: "candidates", label: "Candidates", icon: Users, href: "/candidates" },
-    { id: "jobs", label: "Jobs", icon: FileText, href: "/jobs" },
     {
-      id: "analytics",
-      label: "Analytics",
-      icon: BarChart3,
-      href: "/analytics",
+      id: "department",
+      label: "Department",
+      icon: Network,
+      href: "/department",
     },
+    { id: "task", label: "Task", icon: ListCollapse, href: "/task" },
+    // { id: "candidates", label: "Candidates", icon: Users, href: "/candidates" },
+    // { id: "jobs", label: "Jobs", icon: FileText, href: "/jobs" },
+    // {
+    //   id: "analytics",
+    //   label: "Analytics",
+    //   icon: BarChart3,
+    //   href: "/analytics",
+    // },
     { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
   ];
 
   const handleNavigation = (path: string) => {
-    setActiveItem(path);
     navigate(path);
     onClose?.(); // close sidebar on mobile
   };

@@ -17,6 +17,8 @@ interface BaseInputProps
   showPasswordToggle?: boolean;
   clearable?: boolean;
   onClear?: () => void;
+  multiline?: boolean; // 🆕 key to render textarea instead of input
+  rows?: number; // optional, for textarea rows
 }
 
 const VARIANT_STYLES: Record<InputVariant, string> = {
@@ -45,7 +47,6 @@ const LABEL_SIZE_STYLES: Record<InputSize, string> = {
 const BASE_INPUT_STYLES =
   "w-full rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 disabled:bg-gray-100 disabled:cursor-not-allowed";
 
-// Spinner component
 const Spinner = memo(() => (
   <svg
     className="animate-spin h-4 w-4 text-gray-400"
@@ -71,7 +72,6 @@ const Spinner = memo(() => (
 
 Spinner.displayName = "Spinner";
 
-// Eye icon for password toggle
 const EyeIcon = memo<{ isVisible: boolean }>(({ isVisible }) =>
   isVisible ? (
     <svg
@@ -112,7 +112,6 @@ const EyeIcon = memo<{ isVisible: boolean }>(({ isVisible }) =>
 
 EyeIcon.displayName = "EyeIcon";
 
-// Clear icon
 const ClearIcon = memo(() => (
   <svg
     className="w-4 h-4 text-gray-400 hover:text-gray-600"
@@ -131,7 +130,10 @@ const ClearIcon = memo(() => (
 
 ClearIcon.displayName = "ClearIcon";
 
-const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
+const BaseInput = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  BaseInputProps
+>(
   (
     {
       variant = "default",
@@ -146,6 +148,8 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
       showPasswordToggle = false,
       clearable = false,
       onClear,
+      multiline = false, // 🆕
+      rows = 4, // 🆕
       className = "",
       type = "text",
       disabled = false,
@@ -155,12 +159,9 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false);
-    const [internalType, setInternalType] = useState(type);
 
-    // Determine the actual variant based on error
     const actualVariant = error ? "error" : variant;
 
-    // Memoize input className
     const inputClassName = useMemo(() => {
       const paddingLeft = leftIcon ? "pl-10" : "";
       const paddingRight =
@@ -178,6 +179,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
         paddingLeft,
         paddingRight,
         className,
+        multiline ? "resize-none" : "", // 🆕 prevent resizing if multiline
       ]
         .filter(Boolean)
         .join(" ");
@@ -191,32 +193,21 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
       type,
       clearable,
       className,
+      multiline,
     ]);
 
-    // Memoize container className
-    const containerClassName = useMemo(
-      () => (fullWidth ? "w-full" : ""),
-      [fullWidth]
-    );
-
-    // Handle password toggle
     const handlePasswordToggle = () => {
       setShowPassword(!showPassword);
-      setInternalType(showPassword ? "password" : "text");
     };
 
-    // Handle clear
     const handleClear = () => {
-      if (onClear) {
-        onClear();
-      }
+      onClear?.();
     };
 
-    // Check if we should show the clear button
     const showClearButton = clearable && value && !loading && !disabled;
 
     return (
-      <div className={containerClassName}>
+      <div className={fullWidth ? "w-full" : ""}>
         {label && (
           <label
             className={`block font-medium text-gray-700 mb-1.5 ${LABEL_SIZE_STYLES[size]}`}
@@ -226,60 +217,67 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
         )}
 
         <div className="relative">
-          {/* Left Icon */}
           {leftIcon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
               {leftIcon}
             </div>
           )}
 
-          {/* Input */}
-          <input
-            ref={ref}
-            type={type === "password" && showPassword ? "text" : type}
-            className={inputClassName}
-            disabled={disabled || loading}
-            value={value}
-            {...props}
-          />
+          {/* 🆕 Conditional Rendering for Input or Textarea */}
+          {multiline ? (
+            <textarea
+              ref={ref as React.Ref<HTMLTextAreaElement>}
+              rows={rows}
+              className={inputClassName}
+              disabled={disabled || loading}
+              value={value}
+              {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            />
+          ) : (
+            <input
+              ref={ref as React.Ref<HTMLInputElement>}
+              type={type === "password" && showPassword ? "text" : type}
+              className={inputClassName}
+              disabled={disabled || loading}
+              value={value}
+              {...props}
+            />
+          )}
 
-          {/* Right Side Icons */}
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-            {/* Loading Spinner */}
-            {loading && <Spinner />}
+          {/* Right Icons */}
+          {!multiline && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              {loading && <Spinner />}
 
-            {/* Clear Button */}
-            {!loading && showClearButton && (
-              <button
-                type="button"
-                onClick={handleClear}
-                className="hover:bg-gray-100 rounded p-0.5 transition-colors"
-                tabIndex={-1}
-              >
-                <ClearIcon />
-              </button>
-            )}
+              {!loading && showClearButton && (
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  className="hover:bg-gray-100 rounded p-0.5 transition-colors"
+                  tabIndex={-1}
+                >
+                  <ClearIcon />
+                </button>
+              )}
 
-            {/* Password Toggle */}
-            {!loading && type === "password" && showPasswordToggle && (
-              <button
-                type="button"
-                onClick={handlePasswordToggle}
-                className="hover:bg-gray-100 rounded p-0.5 transition-colors"
-                tabIndex={-1}
-              >
-                <EyeIcon isVisible={showPassword} />
-              </button>
-            )}
+              {!loading && type === "password" && showPasswordToggle && (
+                <button
+                  type="button"
+                  onClick={handlePasswordToggle}
+                  className="hover:bg-gray-100 rounded p-0.5 transition-colors"
+                  tabIndex={-1}
+                >
+                  <EyeIcon isVisible={showPassword} />
+                </button>
+              )}
 
-            {/* Custom Right Icon */}
-            {!loading && rightIcon && !showClearButton && (
-              <span>{rightIcon}</span>
-            )}
-          </div>
+              {!loading && rightIcon && !showClearButton && (
+                <span>{rightIcon}</span>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Helper Text or Error */}
         {(helperText || error) && (
           <p
             className={`mt-1.5 text-sm ${

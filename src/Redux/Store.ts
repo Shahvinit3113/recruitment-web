@@ -3,6 +3,8 @@ import authReducer from "./Slices/authSlice";
 import organizationReducer from "./Slices/Organization/organization";
 import settingsReducer from "./Slices/settingsSlice";
 import taskReducer from "./Slices/Task/task";
+import positionReducer from "./Slices/Position/position";
+import departmentReducer from "./Slices/Department/department";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     organization: organizationReducer,
     settings: settingsReducer,
     task: taskReducer,
+    position: positionReducer,
+    department: departmentReducer,
   },
 });
 

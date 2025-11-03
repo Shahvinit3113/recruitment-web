@@ -404,9 +404,7 @@ const Task: React.FC = () => {
           <BaseSelect
             label="Assigned To"
             value={formData.userName}
-            onChange={(e) =>
-              setFormData({ ...formData, userName: e.target.value })
-            }
+            onChange={(value) => setFormData({ ...formData, userName: value })}
             options={userNameOptions}
             size={componentSize}
             fullWidth
@@ -451,9 +449,7 @@ const Task: React.FC = () => {
           <BaseSelect
             label="Status"
             value={formData.status}
-            onChange={(e) =>
-              setFormData({ ...formData, status: e.target.value })
-            }
+            onChange={(value) => setFormData({ ...formData, status: value })}
             options={statusOptions}
             size={componentSize}
             fullWidth

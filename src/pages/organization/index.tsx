@@ -390,17 +390,6 @@ const Organization: React.FC = () => {
           />
 
           <BaseInput
-            label="Description"
-            placeholder="Enter description"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            size={componentSize}
-            fullWidth
-          />
-
-          <BaseInput
             label="Address"
             placeholder="Enter address"
             value={formData.address}
@@ -420,6 +409,19 @@ const Organization: React.FC = () => {
             }
             size={componentSize}
             fullWidth
+          />
+
+          <BaseInput
+            label="Description"
+            placeholder="Enter description"
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+            size={componentSize}
+            fullWidth
+            multiline={true}
+            rows={2}
           />
         </div>
       </BaseModal>
