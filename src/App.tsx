@@ -19,8 +19,7 @@ import Settings from "./pages/settings";
 import Task from "./pages/task";
 import Position from "./pages/position";
 import Department from "./pages/department";
-import Templates from "./pages/templates/index";
-import ViewTemplate from "./pages/templates/view";
+import Templates from "./pages/templates";
 
 function App() {
   return (
@@ -32,7 +31,6 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/organization" element={<Organization />} />
             <Route path="/templates" element={<Templates />} />
-            <Route path="/templates/:Uid" element={<ViewTemplate />} />
             <Route path="/task" element={<Task />} />
             <Route path="/position" element={<Position />} />
             <Route path="/department" element={<Department />} />
