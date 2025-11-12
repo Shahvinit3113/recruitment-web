@@ -17,7 +17,7 @@ import BaseModal from "@/baseComponent/BaseModal";
 import BaseInput from "@/baseComponent/BaseInput";
 import { useNavigate } from "react-router-dom";
 
-const Template = () => {
+const Template: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { data, loading, error } = useSelector(
