@@ -19,7 +19,7 @@ import Settings from "./pages/settings";
 import Task from "./pages/task";
 import Position from "./pages/position";
 import Department from "./pages/department";
-import Templates from "./pages/templates";
+import Templates from "./pages/templates/index";
 import ViewTemplate from "./pages/templates/view";
 
 function App() {
