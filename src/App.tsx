@@ -19,8 +19,8 @@ import Settings from "./pages/settings";
 import Task from "./pages/task";
 import Position from "./pages/position";
 import Department from "./pages/department";
-import Templates from "./pages/templates/index.tsx";
-import ViewTemplate from "./pages/templates/view.tsx";
+import Templates from "./pages/templates/index";
+import ViewTemplate from "./pages/templates/view";
 
 function App() {
   return (
