@@ -29,7 +29,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
         <React.Fragment key={index}>
           <ChevronRight className="w-4 h-4 text-gray-400" />
 
-          {item.active || !item.href ? (
+          {item.active || !item.href?.length ? (
             <span className="text-gray-900 font-medium">{item.label}</span>
           ) : (
             <a
