@@ -5,6 +5,7 @@ import settingsReducer from "./Slices/settingsSlice";
 import taskReducer from "./Slices/Task/task";
 import positionReducer from "./Slices/Position/position";
 import departmentReducer from "./Slices/Department/department";
+import templateReducer from "./Slices/Template/template";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     task: taskReducer,
     position: positionReducer,
     department: departmentReducer,
+    template: templateReducer,
   },
 });
 
