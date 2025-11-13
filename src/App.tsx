@@ -19,7 +19,7 @@ import Settings from "./pages/settings";
 import Task from "./pages/task";
 import Position from "./pages/position";
 import Department from "./pages/department";
-import Template from "./pages/templates";
+import Template from "./pages/template";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/organization" element={<Organization />} />
-            <Route path="/templates" element={<Template />} />
+            <Route path="/template" element={<Template />} />
             <Route path="/task" element={<Task />} />
             <Route path="/position" element={<Position />} />
             <Route path="/department" element={<Department />} />

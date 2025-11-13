@@ -86,10 +86,10 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       href: "/organization",
     },
     {
-      id: "templates",
+      id: "template",
       label: "Template",
       icon: LayoutTemplate,
-      href: "/templates",
+      href: "/template",
     },
     { id: "position", label: "Position", icon: Briefcase, href: "/position" },
     {
